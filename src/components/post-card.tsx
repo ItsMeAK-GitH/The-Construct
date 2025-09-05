@@ -1,0 +1,26 @@
+import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Post } from '@/types';
+import { format, parseISO } from 'date-fns';
+
+export function PostCard({ post }: { post: Post }) {
+  const date = parseISO(post.createdAt);
+  const formattedDate = format(date, 'MMMM d, yyyy');
+
+  return (
+    <Link href={`/posts/${post.id}`} className="group">
+      <Card className="h-full flex flex-col transition-all duration-300 group-hover:shadow-accent/20 group-hover:shadow-lg group-hover:-translate-y-1.5 border-transparent hover:border-primary/20">
+        <CardHeader>
+          <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{post.title}</CardTitle>
+          <CardDescription>By {post.author}</CardDescription>
+        </CardHeader>
+        <CardContent className="flex-grow">
+          <p className="line-clamp-4 text-sm text-foreground/80">{post.content}</p>
+        </CardContent>
+        <CardFooter>
+          <p className="text-xs text-muted-foreground">{formattedDate}</p>
+        </CardFooter>
+      </Card>
+    </Link>
+  );
+}
