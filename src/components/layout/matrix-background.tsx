@@ -15,7 +15,7 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
   
     return (
       <div
-        className="fixed text-primary/30"
+        className="fixed text-primary/30 z-20"
         style={{
           top: initialTop,
           left: initialLeft,
