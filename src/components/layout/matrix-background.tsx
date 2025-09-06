@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { Network, BrainCircuit, KeyRound, Shield } from 'lucide-react';
 
-const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.ReactNode, initialTop: string, initialLeft: string, speed: number }) => {
+const ParallaxIcon = ({ icon, initialTop, initialLeft, speed, blur }: { icon: React.ReactNode, initialTop: string, initialLeft: string, speed: number, blur: number }) => {
     const [offsetY, setOffsetY] = useState(0);
 
     useEffect(() => {
@@ -25,6 +25,7 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
           left: initialLeft,
           transform: `translateY(${offsetY * speed}px) perspective(500px) translateZ(${offsetY * speed * -0.5}px)`,
           transition: 'transform 0.1s linear',
+          filter: `blur(${blur}px)`,
         }}
       >
         {icon}
@@ -112,10 +113,10 @@ export const MatrixRainingLetters = () => {
             transition: 'transform 0.1s linear'
         }}
     >
-        <ParallaxIcon icon={<Network size={48} />} initialTop="15%" initialLeft="10%" speed={0.25} />
-        <ParallaxIcon icon={<BrainCircuit size={120} />} initialTop="70%" initialLeft="20%" speed={0.4} />
-        <ParallaxIcon icon={<Shield size={64} />} initialTop="45%" initialLeft="85%" speed={0.3} />
-        <ParallaxIcon icon={<KeyRound size={96} />} initialTop="10%" initialLeft="70%" speed={0.5} />
+        <ParallaxIcon icon={<Network size={48} />} initialTop="15%" initialLeft="10%" speed={0.25} blur={3} />
+        <ParallaxIcon icon={<BrainCircuit size={120} />} initialTop="70%" initialLeft="20%" speed={0.4} blur={0.5} />
+        <ParallaxIcon icon={<Shield size={64} />} initialTop="45%" initialLeft="85%" speed={0.3} blur={2} />
+        <ParallaxIcon icon={<KeyRound size={96} />} initialTop="10%" initialLeft="70%" speed={0.5} blur={1} />
         <canvas 
             ref={canvasRef} 
             className="w-full h-full opacity-30"

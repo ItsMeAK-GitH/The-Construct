@@ -44,8 +44,11 @@ export default function Home() {
       <main className="flex-1">
         <section className="h-screen flex flex-col items-center justify-center text-center p-4 relative">
             <div className="z-10 animate-fade-in-down">
-                <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary">
-                    <MatrixText text="Welcome to the Stream" delay={300} />
+                <h1 className="font-headline text-primary">
+                    <span className="block text-3xl md:text-4xl text-muted-foreground">Welcome to</span>
+                    <span className="block text-6xl md:text-8xl font-bold mt-2">
+                        <MatrixText text="the Stream" delay={300} />
+                    </span>
                 </h1>
                 <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
                    A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
