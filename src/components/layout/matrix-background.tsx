@@ -1,6 +1,6 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
-import { Orbit, Atom, Binary, Sigma, Code } from 'lucide-react';
+import { CircuitBoard, Cpu, Dna, Bot } from 'lucide-react';
 
 const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.ReactNode, initialTop: string, initialLeft: string, speed: number }) => {
     const [offsetY, setOffsetY] = useState(0);
@@ -89,11 +89,10 @@ export const MatrixRainingLetters = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full z-0">
-        <ParallaxIcon icon={<Orbit size={64} />} initialTop="20%" initialLeft="10%" speed={0.2} />
-        <ParallaxIcon icon={<Atom size={48} />} initialTop="70%" initialLeft="25%" speed={0.4} />
-        <ParallaxIcon icon={<Binary size={80} />} initialTop="50%" initialLeft="80%" speed={0.3} />
-        <ParallaxIcon icon={<Sigma size={40} />} initialTop="85%" initialLeft="5%" speed={0.6} />
-        <ParallaxIcon icon={<Code size={56} />} initialTop="15%" initialLeft="75%" speed={0.5} />
+        <ParallaxIcon icon={<CircuitBoard size={64} />} initialTop="20%" initialLeft="10%" speed={0.2} />
+        <ParallaxIcon icon={<Cpu size={48} />} initialTop="70%" initialLeft="25%" speed={0.4} />
+        <ParallaxIcon icon={<Dna size={80} />} initialTop="50%" initialLeft="80%" speed={0.3} />
+        <ParallaxIcon icon={<Bot size={56} />} initialTop="15%" initialLeft="75%" speed={0.5} />
         <canvas 
             ref={canvasRef} 
             className="w-full h-full opacity-30"

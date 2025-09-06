@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        headline: ["'Share Tech Mono'", 'monospace'],
-        body: ["'Share Tech Mono'", 'monospace'],
+        headline: ["'Orbitron'", 'sans-serif'],
+        body: ["'Orbitron'", 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

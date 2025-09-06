@@ -7,7 +7,7 @@ export function Header() {
     <header className="bg-card/80 backdrop-blur-sm border-b sticky top-0 z-40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-          <FeatherIcon className="h-6 w-6 text-primary" />
+          <FuturisticLogo className="h-8 w-8 text-primary" />
           <span className="font-headline text-2xl font-bold text-primary">WriteNow</span>
         </Link>
         <Button asChild>
@@ -21,7 +21,7 @@ export function Header() {
   );
 }
 
-function FeatherIcon(props: React.SVGProps<SVGSVGElement>) {
+function FuturisticLogo(props: React.SVGProps<SVGSVGElement>) {
     return (
       <svg
         {...props}
@@ -31,13 +31,16 @@ function FeatherIcon(props: React.SVGProps<SVGSVGElement>) {
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
-        <path d="M16 8 2 22" />
-        <path d="M17.5 15H9" />
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+        <path d="M12 22V12" />
+        <path d="M22 7v10" />
+        <path d="M2 7v10" />
       </svg>
     )
   }
