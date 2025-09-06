@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        headline: ["'Playfair Display'", 'serif'],
-        body: ["'PT Sans'", 'sans-serif'],
+        headline: ["'Share Tech Mono'", 'monospace'],
+        body: ["'Share Tech Mono'", 'monospace'],
         code: ['monospace'],
       },
       colors: {
