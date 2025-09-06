@@ -12,7 +12,7 @@ async function PostsList() {
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20 bg-card/50 backdrop-blur-sm rounded-lg border border-primary/20 shadow-lg">
+      <div className="text-center py-20 bg-card/30 backdrop-blur-md rounded-lg border border-primary/20 shadow-lg">
         <h2 className="font-headline text-3xl mb-3 text-primary">No transmissions detected.</h2>
         <p className="text-muted-foreground mb-6">
           The data stream is clear. Be the first to broadcast a message.
@@ -42,7 +42,7 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <section className="container mx-auto px-4 md:px-6 py-12">
-            <div className="bg-card/50 backdrop-blur-sm border border-primary/10 rounded-lg p-8 md:p-12 text-center shadow-lg">
+            <div className="bg-card/30 backdrop-blur-md border border-primary/20 rounded-lg p-8 md:p-12 text-center shadow-2xl shadow-primary/10">
                 <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary animate-fade-in-down">
                     Welcome to the Stream
                 </h1>
