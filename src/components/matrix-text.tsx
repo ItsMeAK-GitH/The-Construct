@@ -20,26 +20,31 @@ export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
     let currentText = '';
     let iterations = 0;
     const targetText = text;
+    let finished = false;
+
     const initialDelay = setTimeout(() => {
         const animate = () => {
-            if (iterations >= targetText.length * 1.5) { // Slower reveal
-                currentText = targetText;
-                setIsAnimating(false);
-            } else {
-                currentText = targetText.split('').map((_, index) => {
-                    if (index < iterations) { // Reveal one character at a time
-                        return targetText[index];
-                    }
-                    return characters[Math.floor(Math.random() * characters.length)];
-                }).join('');
-                iterations += 0.5; // Slower iteration speed
-            }
+            if (finished) return;
             
+            if (iterations >= targetText.length) {
+                currentText = targetText;
+                setDisplayText(currentText);
+                setIsAnimating(false);
+                finished = true;
+                cancelAnimationFrame(animationFrameId);
+                return;
+            } 
+            
+            currentText = targetText.split('').map((_, index) => {
+                if (index < iterations) {
+                    return targetText[index];
+                }
+                return characters[Math.floor(Math.random() * characters.length)];
+            }).join('');
+            
+            iterations += 1; // Faster iteration speed
             setDisplayText(currentText);
-
-            if (isAnimating) {
-                animationFrameId = requestAnimationFrame(animate);
-            }
+            animationFrameId = requestAnimationFrame(animate);
         };
         animate();
 
@@ -49,16 +54,10 @@ export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
     return () => {
       clearTimeout(initialDelay);
       cancelAnimationFrame(animationFrameId);
-      setIsAnimating(false);
+      finished = true;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, delay]);
-
-  useEffect(() => {
-    if(!isAnimating){
-        setDisplayText(text);
-    }
-  }, [isAnimating, text]);
 
   return <span className={cn(className, 'min-h-[1em] inline-block')}>{displayText}</span>;
 };
