@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface MatrixTextProps {
@@ -14,6 +14,8 @@ const characters = 'アァカサタナハマヤャラワガザダバパイィキ
 export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
   const [displayText, setDisplayText] = useState('');
   const [isAnimating, setIsAnimating] = useState(true);
+  const [showGlitch, setShowGlitch] = useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -32,6 +34,11 @@ export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
                 setIsAnimating(false);
                 finished = true;
                 cancelAnimationFrame(animationFrameId);
+
+                setTimeout(() => {
+                    setShowGlitch(true);
+                }, 500); // Delay before glitch starts
+
                 return;
             } 
             
@@ -58,6 +65,14 @@ export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, delay]);
-
-  return <span className={cn(className, 'min-h-[1em] inline-block')}>{displayText}</span>;
+  
+  return (
+      <span 
+        ref={textRef}
+        className={cn('min-h-[1em] inline-block', className, { 'glitch-text': showGlitch })}
+        data-text={text}
+      >
+          {displayText}
+      </span>
+  );
 };

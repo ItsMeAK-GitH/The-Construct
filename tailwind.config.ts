@@ -18,7 +18,7 @@ export default {
     extend: {
       fontFamily: {
         headline: ["'Orbitron'", 'sans-serif'],
-        body: ["'Orbitron'", 'sans-serif'],
+        body: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"],
         code: ['monospace'],
       },
       colors: {

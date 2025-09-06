@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   overflow: hidden; /* Prevent scrollbars from interfering with parallax */
   cursor: crosshair;
 }
@@ -91,6 +91,9 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+  .prose {
+    @apply font-body;
+  }
 }
 
 @layer utilities {
@@ -121,14 +124,85 @@ html {
       animation: fade-in-up 0.8s ease-out 0.4s forwards;
       opacity: 0;
     }
-    @keyframes glitch {
-      2%, 64% { transform: translate(2px, 0) skew(0deg); }
-      4%, 60% { transform: translate(-2px, 0) skew(0deg); }
-      62% { transform: translate(0, 0) skew(5deg); }
+
+    .glitch-text {
+      position: relative;
     }
-    @keyframes glitch-alt {
-        2%, 64% { transform: translate(1px, -1px); }
-        4%, 60% { transform: translate(-1px, 1px); }
-        62% { transform: translate(1px, 1px) skew(-3deg); }
+
+    .glitch-text::before,
+    .glitch-text::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        clip-path: inset(50% 0 50% 0);
     }
-  }
+    .glitch-text::before {
+        left: -1px;
+        text-shadow: 1px 0 #ff00c1;
+        animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+    .glitch-text::after {
+        left: 1px;
+        text-shadow: -1px 0 #00fff9;
+        animation: glitch-anim-2 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+        0% { clip-path: inset(40% 0 60% 0); }
+        20% { clip-path: inset(10% 0 85% 0); }
+        40% { clip-path: inset(55% 0 25% 0); }
+        60% { clip-path: inset(30% 0 50% 0); }
+        80% { clip-path: inset(80% 0 10% 0); }
+        100% { clip-path: inset(45% 0 40% 0); }
+    }
+    @keyframes glitch-anim-2 {
+        0% { clip-path: inset(60% 0 40% 0); }
+        20% { clip-path: inset(85% 0 10% 0); }
+        40% { clip-path: inset(25% 0 55% 0); }
+        60% { clip-path: inset(50% 0 30% 0); }
+        80% { clip-path: inset(10% 0 80% 0); }
+        100% { clip-path: inset(40% 0 45% 0); }
+    }
+
+
+    .hover-glitch {
+        position: relative;
+        text-shadow: 0 0 1px hsla(var(--foreground), 0.5);
+    }
+    .hover-glitch:hover {
+        animation: glitchy 0.3s ease-in-out forwards;
+    }
+    .hover-glitch:hover::before, .hover-glitch:hover::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: hsl(var(--foreground));
+        background: hsl(var(--background));
+        overflow: hidden;
+        clip-path: inset(50% 0 50% 0);
+        opacity: 0.8;
+    }
+    .hover-glitch:hover::before {
+        transform: translate(-0.05em, -0.025em);
+        text-shadow: 2px 0 #ff00c1;
+        animation: glitch-anim-1 0.3s ease-in-out reverse;
+    }
+    .hover-glitch:hover::after {
+        transform: translate(0.05em, 0.025em);
+        text-shadow: -2px 0 #00fff9;
+        animation: glitch-anim-2 0.3s ease-in-out reverse;
+    }
+
+    @keyframes glitchy {
+        0% { transform: translate(0,0); }
+        25% { transform: translate(-2px, 2px); }
+        50% { transform: translate(2px, -2px); }
+        75% { transform: translate(2px, 2px); }
+        100% { transform: translate(0,0); }
+    }
+}
