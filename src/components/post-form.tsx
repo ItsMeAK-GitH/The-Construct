@@ -18,8 +18,8 @@ import type { Post } from '@/types';
 import { createPost, updatePost, suggestTitles } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
@@ -63,8 +63,8 @@ export function PostForm({ post }: PostFormProps) {
 
   const { pending } = useFormStatus();
 
-  const [createState, createAction] = useFormState(createPost, null);
-  const [updateState, updateAction] = useFormState(post ? updatePost.bind(null, post.id) : () => null, null);
+  const [createState, createAction] = useActionState(createPost, null);
+  const [updateState, updateAction] = useActionState(post ? updatePost.bind(null, post.id) : () => null, null);
 
   const formAction = post ? updateAction : createAction;
   
