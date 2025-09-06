@@ -14,7 +14,7 @@ async function PostsList() {
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20 bg-card/50 backdrop-blur-sm border border-primary/20 shadow-lg rounded-lg">
+      <div className="text-center py-20 bg-card/80 backdrop-blur-sm border border-primary/20 shadow-lg rounded-lg">
         <h2 className="font-headline text-3xl mb-3 text-primary">No transmissions detected.</h2>
         <p className="text-muted-foreground mb-6">
           The data stream is clear. Be the first to broadcast a message.
@@ -62,7 +62,7 @@ export default function Home() {
 
         <section id="features" className="container mx-auto px-4 md:px-6 py-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <Code className="w-10 h-10 text-primary" />
@@ -75,7 +75,7 @@ export default function Home() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <BrainCircuit className="w-10 h-10 text-primary" />
@@ -88,7 +88,7 @@ export default function Home() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <Share2 className="w-10 h-10 text-primary" />
@@ -105,7 +105,7 @@ export default function Home() {
         </section>
 
         <section id="latest-transmissions" className="container mx-auto px-4 md:px-6 py-12 min-h-screen">
-          <div className="mb-8 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20 shadow-lg">
+          <div className="mb-8 p-4 rounded-lg bg-card/80 backdrop-blur-sm border border-primary/20 shadow-lg">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">
               Latest Transmissions
             </h2>
