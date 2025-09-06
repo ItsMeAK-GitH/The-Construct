@@ -41,17 +41,19 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <section className="container mx-auto px-4 md:px-6 py-20 text-center">
-            <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary animate-fade-in-down">
-                Welcome to the Stream
-            </h1>
-            <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
-                A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
-            </p>
+        <section className="container mx-auto px-4 md:px-6 py-12">
+            <div className="bg-card/50 backdrop-blur-sm border border-primary/10 rounded-lg p-8 md:p-12 text-center shadow-lg">
+                <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary animate-fade-in-down">
+                    Welcome to the Stream
+                </h1>
+                <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
+                    A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
+                </p>
+            </div>
         </section>
 
         <section className="container mx-auto px-4 md:px-6 pb-12">
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">
               Latest Transmissions
             </h2>
