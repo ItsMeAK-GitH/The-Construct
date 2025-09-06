@@ -22,7 +22,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <MatrixRainingLetters />
-        <div className="relative z-10 h-screen overflow-y-auto">
+        <div className="relative z-10 h-screen overflow-y-auto scroll-smooth">
           {children}
         </div>
         <Toaster />
