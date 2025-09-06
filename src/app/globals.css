@@ -8,6 +8,10 @@ body {
   cursor: crosshair;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --background: 240 10% 3.9%;

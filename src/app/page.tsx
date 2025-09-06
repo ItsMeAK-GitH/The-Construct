@@ -5,14 +5,15 @@ import { Suspense } from 'react';
 import Loading from './loading';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PenSquare } from 'lucide-react';
+import { PenSquare, ArrowDown } from 'lucide-react';
+import { MatrixText } from '@/components/matrix-text';
 
 async function PostsList() {
   const posts = await getPosts();
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20 bg-card/50 backdrop-blur-2xl border border-primary/20 shadow-lg rounded-lg">
+      <div className="text-center py-20 bg-card/50 backdrop-blur-sm border border-primary/20 shadow-lg rounded-lg">
         <h2 className="font-headline text-3xl mb-3 text-primary">No transmissions detected.</h2>
         <p className="text-muted-foreground mb-6">
           The data stream is clear. Be the first to broadcast a message.
@@ -41,19 +42,22 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <section className="container mx-auto px-4 md:px-6 py-12 min-h-[60vh] flex items-center justify-center">
-            <div className="bg-card/50 backdrop-blur-2xl border border-primary/20 rounded-lg p-8 md:p-12 text-center shadow-lg animate-fade-in-down">
+        <section className="h-screen flex flex-col items-center justify-center text-center p-4 relative">
+            <div className="z-10 animate-fade-in-down">
                 <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary">
-                    Welcome to the Stream
+                    <MatrixText text="Welcome to the Stream" delay={300} />
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                    A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
+                <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
+                   <MatrixText text="A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net." delay={1000} />
                 </p>
             </div>
+            <a href="#latest-transmissions" className="absolute bottom-10 z-10 animate-bounce">
+                <ArrowDown className="h-8 w-8 text-primary" />
+            </a>
         </section>
 
-        <section className="container mx-auto px-4 md:px-6 pb-12">
-          <div className="mb-8 p-4 rounded-lg bg-card/50 backdrop-blur-2xl border border-primary/20 shadow-lg">
+        <section id="latest-transmissions" className="container mx-auto px-4 md:px-6 py-12 min-h-screen">
+          <div className="mb-8 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-primary/20 shadow-lg">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">
               Latest Transmissions
             </h2>

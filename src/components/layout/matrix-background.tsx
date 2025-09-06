@@ -6,20 +6,24 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
     const [offsetY, setOffsetY] = useState(0);
 
     useEffect(() => {
+      const container = document.querySelector('.overflow-y-auto');
       const handleScroll = () => {
-        setOffsetY(window.scrollY);
+        if(container) {
+            setOffsetY(container.scrollTop);
+        }
       };
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      
+      container?.addEventListener('scroll', handleScroll);
+      return () => container?.removeEventListener('scroll', handleScroll);
     }, []);
   
     return (
       <div
-        className="fixed text-primary/30 z-20"
+        className="fixed text-primary/30 z-0"
         style={{
           top: initialTop,
           left: initialLeft,
-          transform: `translateY(${offsetY * speed}px)`,
+          transform: `translateY(${offsetY * speed}px) perspective(500px) translateZ(${offsetY * speed * -0.5}px)`,
           transition: 'transform 0.1s linear',
         }}
       >
@@ -96,7 +100,6 @@ export const MatrixRainingLetters = () => {
         <canvas 
             ref={canvasRef} 
             className="w-full h-full opacity-30"
-            style={{ perspective: '1000px' }}
         />
     </div>
   );
