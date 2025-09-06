@@ -19,7 +19,7 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
   
     return (
       <div
-        className="fixed text-primary/40 z-30"
+        className="fixed text-primary/40 z-0"
         style={{
           top: initialTop,
           left: initialLeft,
@@ -35,6 +35,19 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
 // Based on https://dev.to/gnsp/making-the-matrix-effect-in-javascript-din
 export const MatrixRainingLetters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [offsetY, setOffsetY] = useState(0);
+
+  useEffect(() => {
+    const container = document.querySelector('.overflow-y-auto');
+    const handleScroll = () => {
+      if(container) {
+          setOffsetY(container.scrollTop);
+      }
+    };
+    
+    container?.addEventListener('scroll', handleScroll);
+    return () => container?.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -92,7 +105,13 @@ export const MatrixRainingLetters = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full z-0">
+    <div 
+        className="fixed top-0 left-0 w-full h-full z-0"
+        style={{
+            transform: `translateY(${offsetY * 0.1}px)`,
+            transition: 'transform 0.1s linear'
+        }}
+    >
         <ParallaxIcon icon={<Network size={48} />} initialTop="15%" initialLeft="10%" speed={0.25} />
         <ParallaxIcon icon={<BrainCircuit size={120} />} initialTop="70%" initialLeft="20%" speed={0.4} />
         <ParallaxIcon icon={<Shield size={64} />} initialTop="45%" initialLeft="85%" speed={0.3} />
