@@ -8,7 +8,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
           <FuturisticLogo className="h-8 w-8 text-primary" />
-          <span className="font-headline text-2xl font-bold text-primary">WriteNow</span>
+          <span className="font-headline text-2xl font-bold text-primary">The Construct</span>
         </Link>
         <Button asChild>
           <Link href="/posts/new">

@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { MatrixRainingLetters } from '@/components/layout/matrix-background';
 
 export const metadata: Metadata = {
-  title: 'WriteNow',
+  title: 'The Construct',
   description: 'A modern blog application to share your thoughts.',
 };
 
