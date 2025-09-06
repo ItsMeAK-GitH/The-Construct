@@ -6,7 +6,6 @@ import Loading from './loading';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PenSquare } from 'lucide-react';
-import { MatrixText } from '@/components/matrix-text';
 
 async function PostsList() {
   const posts = await getPosts();
@@ -43,11 +42,11 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <section className="container mx-auto px-4 md:px-6 py-20 text-center">
-            <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary">
-                <MatrixText text="Welcome to the Stream" />
+            <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary animate-fade-in-down">
+                Welcome to the Stream
             </h1>
-            <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-                <MatrixText text="A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net." delay={1000} />
+            <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
+                A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
             </p>
         </section>
 
