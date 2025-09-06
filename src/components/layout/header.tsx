@@ -1,21 +1,13 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { PenSquare } from 'lucide-react';
 
 export function Header() {
   return (
     <header className="bg-card/80 backdrop-blur-sm border-b sticky top-0 z-40">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-16 items-center justify-center px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80 hover:animate-glitch-alt">
           <FuturisticLogo className="h-8 w-8 text-primary" />
           <span className="font-headline text-2xl font-bold text-primary">The Construct</span>
         </Link>
-        <Button asChild>
-          <Link href="/posts/new">
-            <PenSquare className="mr-2 h-4 w-4" />
-            New Post
-          </Link>
-        </Button>
       </div>
     </header>
   );
