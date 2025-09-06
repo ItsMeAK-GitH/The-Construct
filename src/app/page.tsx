@@ -5,8 +5,9 @@ import { Suspense } from 'react';
 import Loading from './loading';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { PenSquare, ArrowDown } from 'lucide-react';
+import { PenSquare, ArrowDown, Code, BrainCircuit, Share2 } from 'lucide-react';
 import { MatrixText } from '@/components/matrix-text';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 async function PostsList() {
   const posts = await getPosts();
@@ -54,9 +55,53 @@ export default function Home() {
                    A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
                 </p>
             </div>
-            <a href="#latest-transmissions" className="absolute bottom-10 z-10 animate-bounce">
+            <a href="#features" className="absolute bottom-10 z-10 animate-bounce">
                 <ArrowDown className="h-8 w-8 text-primary" />
             </a>
+        </section>
+
+        <section id="features" className="container mx-auto px-4 md:px-6 py-24">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                    <CardHeader>
+                        <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                            <Code className="w-10 h-10 text-primary" />
+                        </div>
+                        <CardTitle className="font-headline text-2xl">Create & Customize</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">
+                            Forge your own corner of the digital world. Write, edit, and style your posts with a futuristic interface.
+                        </p>
+                    </CardContent>
+                </Card>
+                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                    <CardHeader>
+                        <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                            <BrainCircuit className="w-10 h-10 text-primary" />
+                        </div>
+                        <CardTitle className="font-headline text-2xl">AI-Powered Titles</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">
+                            Leverage the power of AI to generate compelling titles for your posts, ensuring your ideas capture the attention they deserve.
+                        </p>
+                    </CardContent>
+                </Card>
+                <Card className="bg-card/50 backdrop-blur-2xl border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10">
+                    <CardHeader>
+                        <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
+                            <Share2 className="w-10 h-10 text-primary" />
+                        </div>
+                        <CardTitle className="font-headline text-2xl">Share Your Reality</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">
+                            Broadcast your thoughts to the stream. Seamlessly publish and share your articles with the rest of the digital world.
+                        </p>
+                    </CardContent>
+                </Card>
+            </div>
         </section>
 
         <section id="latest-transmissions" className="container mx-auto px-4 md:px-6 py-12 min-h-screen">
