@@ -1,5 +1,32 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { Orbit, Atom, Binary, Sigma, Code } from 'lucide-react';
+
+const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.ReactNode, initialTop: string, initialLeft: string, speed: number }) => {
+    const [offsetY, setOffsetY] = useState(0);
+
+    useEffect(() => {
+      const handleScroll = () => {
+        setOffsetY(window.scrollY);
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+  
+    return (
+      <div
+        className="fixed text-primary/30"
+        style={{
+          top: initialTop,
+          left: initialLeft,
+          transform: `translateY(${offsetY * speed}px)`,
+          transition: 'transform 0.1s linear',
+        }}
+      >
+        {icon}
+      </div>
+    );
+}
 
 // Based on https://dev.to/gnsp/making-the-matrix-effect-in-javascript-din
 export const MatrixRainingLetters = () => {
@@ -61,10 +88,17 @@ export const MatrixRainingLetters = () => {
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full z-0 opacity-30"
-      style={{ perspective: '1000px' }}
-    />
+    <div className="fixed top-0 left-0 w-full h-full z-0">
+        <ParallaxIcon icon={<Orbit size={64} />} initialTop="20%" initialLeft="10%" speed={0.2} />
+        <ParallaxIcon icon={<Atom size={48} />} initialTop="70%" initialLeft="25%" speed={0.4} />
+        <ParallaxIcon icon={<Binary size={80} />} initialTop="50%" initialLeft="80%" speed={0.3} />
+        <ParallaxIcon icon={<Sigma size={40} />} initialTop="85%" initialLeft="5%" speed={0.6} />
+        <ParallaxIcon icon={<Code size={56} />} initialTop="15%" initialLeft="75%" speed={0.5} />
+        <canvas 
+            ref={canvasRef} 
+            className="w-full h-full opacity-30"
+            style={{ perspective: '1000px' }}
+        />
+    </div>
   );
 };

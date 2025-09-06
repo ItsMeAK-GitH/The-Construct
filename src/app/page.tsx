@@ -12,7 +12,7 @@ async function PostsList() {
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-20 bg-card/30 backdrop-blur-md rounded-lg border border-primary/20 shadow-lg">
+      <div className="text-center py-20 bg-card/60 backdrop-blur-lg border border-primary/30 shadow-lg rounded-lg">
         <h2 className="font-headline text-3xl mb-3 text-primary">No transmissions detected.</h2>
         <p className="text-muted-foreground mb-6">
           The data stream is clear. Be the first to broadcast a message.
@@ -41,12 +41,12 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <section className="container mx-auto px-4 md:px-6 py-12">
-            <div className="bg-card/30 backdrop-blur-md border border-primary/20 rounded-lg p-8 md:p-12 text-center shadow-2xl shadow-primary/10">
-                <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary animate-fade-in-down">
+        <section className="container mx-auto px-4 md:px-6 py-12 min-h-[60vh] flex items-center justify-center">
+            <div className="bg-card/60 backdrop-blur-lg border border-primary/30 rounded-lg p-8 md:p-12 text-center shadow-2xl shadow-primary/20 max-w-4xl animate-fade-in-down">
+                <h1 className="text-5xl md:text-7xl font-bold font-headline text-primary">
                     Welcome to the Stream
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
+                <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
                     A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
                 </p>
             </div>
