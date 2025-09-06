@@ -48,7 +48,7 @@ export default function Home() {
                     <MatrixText text="Welcome to the Stream" delay={300} />
                 </h1>
                 <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up">
-                   <MatrixText text="A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net." delay={1000} />
+                   A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
                 </p>
             </div>
             <a href="#latest-transmissions" className="absolute bottom-10 z-10 animate-bounce">
