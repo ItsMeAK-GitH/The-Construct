@@ -22,17 +22,17 @@ export const MatrixText = ({ text, className, delay = 0 }: MatrixTextProps) => {
     const targetText = text;
     const initialDelay = setTimeout(() => {
         const animate = () => {
-            if (iterations >= targetText.length * 2.5) {
+            if (iterations >= targetText.length * 1.5) { // Slower reveal
                 currentText = targetText;
                 setIsAnimating(false);
             } else {
                 currentText = targetText.split('').map((_, index) => {
-                    if (index < iterations / 2.5) {
+                    if (index < iterations) { // Reveal one character at a time
                         return targetText[index];
                     }
                     return characters[Math.floor(Math.random() * characters.length)];
                 }).join('');
-                iterations += 1;
+                iterations += 0.5; // Slower iteration speed
             }
             
             setDisplayText(currentText);
