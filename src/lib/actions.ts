@@ -43,7 +43,7 @@ function toPost(doc: any): Post {
 }
 
 
-export async function createPost(formData: FormData) {
+export async function createPost(prevState: any, formData: FormData) {
   const validatedFields = PostSchema.safeParse({
     title: formData.get('title'),
     content: formData.get('content'),
@@ -71,7 +71,7 @@ export async function createPost(formData: FormData) {
   redirect('/');
 }
 
-export async function updatePost(id: string, formData: FormData) {
+export async function updatePost(id: string, prevState: any, formData: FormData) {
   const validatedFields = PostSchema.safeParse({
     title: formData.get('title'),
     content: formData.get('content'),

@@ -18,7 +18,8 @@ import type { Post } from '@/types';
 import { createPost, updatePost, suggestTitles } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useTransition, useState } from 'react';
+import { useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
@@ -34,13 +35,22 @@ interface PostFormProps {
   post?: Post;
 }
 
+function SubmitButton({ isEdit }: { isEdit: boolean }) {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending}>
+      {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      {isEdit ? 'Save Changes' : 'Publish Post'}
+    </Button>
+  );
+}
+
 export function PostForm({ post }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-
+  
   const form = useForm<PostFormValues>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
@@ -51,39 +61,13 @@ export function PostForm({ post }: PostFormProps) {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: PostFormValues) => {
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('content', data.content);
-      formData.append('author', data.author);
+  const { pending } = useFormStatus();
 
-      const action = post ? updatePost.bind(null, post.id) : createPost;
-      const result = await action(formData);
-      
-      if (result?.errors) {
-        // Handle validation errors (though client-side should catch most)
-        toast({
-            title: 'Invalid input',
-            description: 'Please check the form for errors.',
-            variant: 'destructive'
-        });
-      } else if (result?.message) {
-        toast({
-            title: 'An error occurred',
-            description: result.message,
-            variant: 'destructive'
-        });
-      } else {
-        toast({
-            title: 'Success!',
-            description: `Post ${post ? 'updated' : 'created'} successfully.`,
-        });
-        // Redirect is handled by the server action
-      }
-    });
-  };
+  const [createState, createAction] = useFormState(createPost, null);
+  const [updateState, updateAction] = useFormState(post ? updatePost.bind(null, post.id) : () => null, null);
 
+  const formAction = post ? updateAction : createAction;
+  
   const handleSuggestTitles = async () => {
     const content = form.getValues('content');
     setIsSuggesting(true);
@@ -101,7 +85,7 @@ export function PostForm({ post }: PostFormProps) {
     <Card>
       <CardContent className="pt-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form action={formAction} className="space-y-8">
             <FormField
               control={form.control}
               name="title"
@@ -165,7 +149,7 @@ export function PostForm({ post }: PostFormProps) {
                  </Card>
             )}
 
-            <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || isPending}>
+            <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || pending}>
                 {isSuggesting ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
@@ -189,13 +173,10 @@ export function PostForm({ post }: PostFormProps) {
             />
             
             <div className="flex justify-end gap-4">
-              <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isPending}>
+              <Button type="button" variant="ghost" onClick={() => router.back()} disabled={pending}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isPending}>
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {post ? 'Save Changes' : 'Publish Post'}
-              </Button>
+              <SubmitButton isEdit={!!post} />
             </div>
           </form>
         </Form>
