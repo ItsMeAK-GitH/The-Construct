@@ -9,7 +9,7 @@ export function PostCard({ post }: { post: Post }) {
 
   return (
     <Link href={`/posts/${post.id}`} className="group">
-      <Card className="h-full flex flex-col transition-all duration-300 group-hover:shadow-accent/20 group-hover:shadow-lg group-hover:-translate-y-1.5 border-primary/20 bg-card/60 backdrop-blur-sm">
+      <Card className="h-full flex flex-col transition-all duration-300 group-hover:shadow-accent/20 group-hover:shadow-lg group-hover:-translate-y-1.5 border-primary/20 bg-card/70 backdrop-blur-lg">
         <CardHeader>
           <CardTitle className="font-headline text-2xl group-hover:text-primary transition-colors">{post.title}</CardTitle>
           <CardDescription>By {post.author}</CardDescription>
