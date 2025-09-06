@@ -19,7 +19,7 @@ const ParallaxIcon = ({ icon, initialTop, initialLeft, speed }: { icon: React.Re
   
     return (
       <div
-        className="fixed text-primary/40 z-20"
+        className="fixed text-primary/40 z-30"
         style={{
           top: initialTop,
           left: initialLeft,
@@ -93,10 +93,10 @@ export const MatrixRainingLetters = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full z-0">
-        <ParallaxIcon icon={<Network size={96} />} initialTop="15%" initialLeft="10%" speed={0.25} />
-        <ParallaxIcon icon={<BrainCircuit size={80} />} initialTop="70%" initialLeft="20%" speed={0.4} />
-        <ParallaxIcon icon={<Shield size={120} />} initialTop="45%" initialLeft="85%" speed={0.3} />
-        <ParallaxIcon icon={<KeyRound size={72} />} initialTop="10%" initialLeft="70%" speed={0.5} />
+        <ParallaxIcon icon={<Network size={48} />} initialTop="15%" initialLeft="10%" speed={0.25} />
+        <ParallaxIcon icon={<BrainCircuit size={120} />} initialTop="70%" initialLeft="20%" speed={0.4} />
+        <ParallaxIcon icon={<Shield size={64} />} initialTop="45%" initialLeft="85%" speed={0.3} />
+        <ParallaxIcon icon={<KeyRound size={96} />} initialTop="10%" initialLeft="70%" speed={0.5} />
         <canvas 
             ref={canvasRef} 
             className="w-full h-full opacity-30"
