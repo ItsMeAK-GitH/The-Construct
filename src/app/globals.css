@@ -121,4 +121,14 @@ html {
       animation: fade-in-up 0.8s ease-out 0.4s forwards;
       opacity: 0;
     }
+    @keyframes glitch {
+      2%, 64% { transform: translate(2px, 0) skew(0deg); }
+      4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+      62% { transform: translate(0, 0) skew(5deg); }
+    }
+    @keyframes glitch-alt {
+        2%, 64% { transform: translate(1px, -1px); }
+        4%, 60% { transform: translate(-1px, 1px); }
+        62% { transform: translate(1px, 1px) skew(-3deg); }
+    }
   }

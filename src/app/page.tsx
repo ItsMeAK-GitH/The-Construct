@@ -55,14 +55,14 @@ export default function Home() {
                    A modern blog for the digital age, where your thoughts flow freely in the ever-shifting currents of the net.
                 </p>
             </div>
-            <a href="#features" className="absolute bottom-10 z-10 animate-bounce">
+            <a href="#features" className="absolute bottom-10 z-10 animate-bounce hover:animate-glitch">
                 <ArrowDown className="h-8 w-8 text-primary" />
             </a>
         </section>
 
         <section id="features" className="container mx-auto px-4 md:px-6 py-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl hover:animate-glitch">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <Code className="w-10 h-10 text-primary" />
@@ -75,7 +75,7 @@ export default function Home() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl hover:animate-glitch">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <BrainCircuit className="w-10 h-10 text-primary" />
@@ -88,7 +88,7 @@ export default function Home() {
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl">
+                <Card className="bg-card/70 backdrop-blur-lg border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:backdrop-blur-xl hover:animate-glitch">
                     <CardHeader>
                         <div className="mx-auto bg-primary/10 p-4 rounded-full w-fit mb-4">
                             <Share2 className="w-10 h-10 text-primary" />
