@@ -115,11 +115,6 @@ export default function Home() {
           </Suspense>
         </section>
       </main>
-      <Button asChild className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg shadow-primary/30 z-50">
-          <Link href="/posts/new" aria-label="Create new post">
-            <PenSquare className="h-8 w-8" />
-          </Link>
-      </Button>
     </div>
   );
 }
