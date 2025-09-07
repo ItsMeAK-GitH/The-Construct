@@ -3,10 +3,13 @@ import { PostCard } from '@/components/post-card';
 import { Header } from '@/components/layout/header';
 import { Suspense } from 'react';
 import Loading from './loading';
-import { ArrowDown, Code, BrainCircuit, Share2 } from 'lucide-react';
+import { ArrowDown, Code, BrainCircuit, Share2, PenSquare } from 'lucide-react';
 import { MatrixText } from '@/components/matrix-text';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NoPosts } from '@/components/no-posts';
+import { LoginSection } from '@/components/login-section';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 async function PostsList() {
   const posts = await getPosts();
@@ -91,14 +94,21 @@ export default function Home() {
         </section>
 
         <section id="latest-transmissions" className="container mx-auto px-4 md:px-6 py-12 min-h-screen">
-          <div className="mb-8 p-4 rounded-lg bg-card/80 backdrop-blur-sm border border-primary/20 shadow-lg">
+          <div className="mb-8 p-4 rounded-lg bg-card/80 backdrop-blur-sm border border-primary/20 shadow-lg flex justify-between items-center">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">
               Latest Transmissions
             </h2>
+             <Button asChild>
+                <Link href="/posts/new">
+                  <PenSquare/>
+                  New Post
+                </Link>
+              </Button>
           </div>
           <Suspense fallback={<Loading />}>
             <PostsList />
           </Suspense>
+          <LoginSection />
         </section>
       </main>
     </div>
