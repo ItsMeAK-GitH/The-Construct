@@ -19,6 +19,12 @@ async function PostsList() {
         <p className="text-muted-foreground mb-6">
           The data stream is clear. Be the first to broadcast a message.
         </p>
+        <Button asChild>
+          <Link href="/posts/new">
+            <PenSquare className="mr-2" />
+            Create New Post
+          </Link>
+        </Button>
       </div>
     );
   }
