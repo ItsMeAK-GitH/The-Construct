@@ -10,7 +10,6 @@ import {
 import {
   onAuthStateChanged,
   signInWithRedirect,
-  getRedirectResult,
   signOut,
   GoogleAuthProvider,
   User,
@@ -32,26 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
-
-    // Check for redirect result
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result) {
-          // This is the signed-in user
-          const user = result.user;
-          setUser(user);
-        }
-      })
-      .catch((error) => {
-        console.error('Error getting redirect result', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-
 
     return () => unsubscribe();
   }, []);
