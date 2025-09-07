@@ -17,12 +17,14 @@ import { Trash2, Loader2 } from 'lucide-react';
 import { deletePost } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
 
 export function DeletePostButton({ postId, postAuthor }: { postId: string, postAuthor: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const { user } = useAuth();
+  const router = useRouter();
 
   if (user?.displayName !== postAuthor) {
       return null;
@@ -43,6 +45,8 @@ export function DeletePostButton({ postId, postAuthor }: { postId: string, postA
           title: 'Success',
           description: 'Post deleted successfully.',
         });
+        router.push('/');
+        router.refresh();
       }
     });
   };

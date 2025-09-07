@@ -15,7 +15,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { generatePostTitleSuggestions } from '@/ai/flows/generate-post-title-suggestions';
 import type { Post } from '@/types';
@@ -61,7 +60,7 @@ export async function createPost(data: PostFormValues) {
       updatedAt: serverTimestamp(),
     });
     revalidatePath('/');
-    redirect(`/posts/${newDoc.id}`);
+    return { id: newDoc.id };
   } catch (error) {
     console.error('Error creating post:', error);
     return { message: 'Failed to create post.' };
@@ -85,7 +84,7 @@ export async function updatePost(id: string, data: PostFormValues) {
     });
     revalidatePath('/');
     revalidatePath(`/posts/${id}`);
-    redirect(`/posts/${id}`);
+    return { id };
   } catch (error) {
     console.error('Error updating post:', error);
     return { message: 'Failed to update post.' };
@@ -101,7 +100,7 @@ export async function deletePost(id: string) {
     }
   
   revalidatePath('/');
-  redirect('/');
+  // After deleting, we can't redirect to the post, so we'll let the client handle it.
 }
 
 export async function getPosts(): Promise<Post[]> {

@@ -59,19 +59,22 @@ export function PostForm({ post }: PostFormProps) {
     startTransition(async () => {
       const action = post ? updatePost.bind(null, post.id) : createPost;
       const result = await action(data);
+
       if (result?.errors) {
-        // Handle validation errors if needed, though zodResolver should prevent this
+        // This part is unlikely to be hit with zodResolver, but good practice.
+        console.error(result.errors);
       } else if (result?.message) {
         toast({
           title: 'Error',
           description: result.message,
           variant: 'destructive',
         });
-      } else {
+      } else if (result?.id) {
         toast({
           title: 'Success!',
           description: `Post has been ${post ? 'updated' : 'created'}.`,
         });
+        router.push(`/posts/${result.id}`);
         router.refresh();
       }
     });
@@ -134,7 +137,7 @@ export function PostForm({ post }: PostFormProps) {
                 <FormItem>
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} readOnly={!!user?.displayName && !!post} />
+                    <Input placeholder="Your name" {...field} readOnly={!!user?.displayName} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
