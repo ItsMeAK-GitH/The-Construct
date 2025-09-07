@@ -26,6 +26,8 @@ const PostSchema = z.object({
   author: z.string().min(2, 'Author name must be at least 2 characters long.'),
 });
 
+type PostFormValues = z.infer<typeof PostSchema>;
+
 type FirestorePost = Omit<Post, 'id' | 'createdAt' | 'updatedAt'> & {
     createdAt: Timestamp;
     updatedAt: Timestamp;
@@ -43,12 +45,8 @@ function toPost(doc: any): Post {
 }
 
 
-export async function createPost(prevState: any, formData: FormData) {
-  const validatedFields = PostSchema.safeParse({
-    title: formData.get('title'),
-    content: formData.get('content'),
-    author: formData.get('author'),
-  });
+export async function createPost(data: PostFormValues) {
+  const validatedFields = PostSchema.safeParse(data);
 
   if (!validatedFields.success) {
     return {
@@ -57,26 +55,21 @@ export async function createPost(prevState: any, formData: FormData) {
   }
 
   try {
-    await addDoc(collection(db, 'posts'), {
+    const newDoc = await addDoc(collection(db, 'posts'), {
       ...validatedFields.data,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
+    revalidatePath('/');
+    redirect(`/posts/${newDoc.id}`);
   } catch (error) {
     console.error('Error creating post:', error);
     return { message: 'Failed to create post.' };
   }
-  
-  revalidatePath('/');
-  redirect('/');
 }
 
-export async function updatePost(id: string, prevState: any, formData: FormData) {
-  const validatedFields = PostSchema.safeParse({
-    title: formData.get('title'),
-    content: formData.get('content'),
-    author: formData.get('author'),
-  });
+export async function updatePost(id: string, data: PostFormValues) {
+  const validatedFields = PostSchema.safeParse(data);
 
   if (!validatedFields.success) {
     return {
@@ -90,14 +83,13 @@ export async function updatePost(id: string, prevState: any, formData: FormData)
       ...validatedFields.data,
       updatedAt: serverTimestamp(),
     });
+    revalidatePath('/');
+    revalidatePath(`/posts/${id}`);
+    redirect(`/posts/${id}`);
   } catch (error) {
     console.error('Error updating post:', error);
     return { message: 'Failed to update post.' };
   }
-
-  revalidatePath('/');
-  revalidatePath(`/posts/${id}`);
-  redirect(`/posts/${id}`);
 }
 
 export async function deletePost(id: string) {

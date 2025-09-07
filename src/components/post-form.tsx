@@ -18,8 +18,7 @@ import type { Post } from '@/types';
 import { createPost, updatePost, suggestTitles } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useActionState, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState, useTransition } from 'react';
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { useAuth } from '@/hooks/use-auth';
@@ -36,23 +35,14 @@ interface PostFormProps {
   post?: Post;
 }
 
-function SubmitButton({ isEdit }: { isEdit: boolean }) {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-      {isEdit ? 'Save Changes' : 'Publish Post'}
-    </Button>
-  );
-}
-
 export function PostForm({ post }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const { user } = useAuth();
-  
+  const [isPending, startTransition] = useTransition();
+
   const authorName = post?.author || user?.displayName || '';
 
   const form = useForm<PostFormValues>({
@@ -65,31 +55,46 @@ export function PostForm({ post }: PostFormProps) {
     mode: 'onChange',
   });
 
-  const { pending } = useFormStatus();
+  const onSubmit = (data: PostFormValues) => {
+    startTransition(async () => {
+      const action = post ? updatePost.bind(null, post.id) : createPost;
+      const result = await action(data);
+      if (result?.errors) {
+        // Handle validation errors if needed, though zodResolver should prevent this
+      } else if (result?.message) {
+        toast({
+          title: 'Error',
+          description: result.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Success!',
+          description: `Post has been ${post ? 'updated' : 'created'}.`,
+        });
+        router.refresh();
+      }
+    });
+  };
 
-  const [createState, createAction] = useActionState(createPost, null);
-  const [updateState, updateAction] = useActionState(post ? updatePost.bind(null, post.id) : () => null, null);
-
-  const formAction = post ? updateAction : createAction;
-  
   const handleSuggestTitles = async () => {
     const content = form.getValues('content');
     setIsSuggesting(true);
     setSuggestions([]);
     const result = await suggestTitles(content);
-    if(result.error) {
-        toast({ title: "Couldn't get suggestions", description: result.error, variant: 'destructive' });
+    if (result.error) {
+      toast({ title: "Couldn't get suggestions", description: result.error, variant: 'destructive' });
     } else {
-        setSuggestions(result.suggestions);
+      setSuggestions(result.suggestions);
     }
     setIsSuggesting(false);
   };
-  
+
   return (
     <Card>
       <CardContent className="pt-6">
         <Form {...form}>
-          <form action={formAction} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="title"
@@ -103,7 +108,7 @@ export function PostForm({ post }: PostFormProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="content"
@@ -122,14 +127,14 @@ export function PostForm({ post }: PostFormProps) {
               )}
             />
 
-             <FormField
+            <FormField
               control={form.control}
               name="author"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} readOnly={!!post?.author} />
+                    <Input placeholder="Your name" {...field} readOnly={!!user?.displayName && !!post} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -137,50 +142,53 @@ export function PostForm({ post }: PostFormProps) {
             />
 
             {suggestions.length > 0 && (
-                 <Card className="bg-accent/20">
-                    <CardHeader>
-                        <CardTitle className="flex items-center text-lg font-headline">
-                            <Sparkles className="w-5 h-5 mr-2 text-accent-foreground" />
-                            AI Title Suggestions
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="space-y-2">
-                        {suggestions.map((s, i) => (
-                            <li key={i}>
-                                <Button
-                                    type="button"
-                                    variant="ghost"
-                                    size="sm"
-                                    className="w-full justify-start text-left h-auto"
-                                    onClick={() => {
-                                        form.setValue('title', s, { shouldValidate: true });
-                                        setSuggestions([]);
-                                    }}
-                                >
-                                    {s}
-                                </Button>
-                            </li>
-                        ))}
-                        </ul>
-                    </CardContent>
-                 </Card>
+              <Card className="bg-accent/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-lg font-headline">
+                    <Sparkles className="w-5 h-5 mr-2 text-accent-foreground" />
+                    AI Title Suggestions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {suggestions.map((s, i) => (
+                      <li key={i}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="w-full justify-start text-left h-auto"
+                          onClick={() => {
+                            form.setValue('title', s, { shouldValidate: true });
+                            setSuggestions([]);
+                          }}
+                        >
+                          {s}
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             )}
 
-            <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || pending}>
-                {isSuggesting ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                    <Wand2 className="mr-2 h-4 w-4" />
-                )}
-                Suggest Titles with AI
+            <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || isPending}>
+              {isSuggesting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wand2 className="mr-2 h-4 w-4" />
+              )}
+              Suggest Titles with AI
             </Button>
-            
+
             <div className="flex justify-end gap-4">
-              <Button type="button" variant="ghost" onClick={() => router.back()} disabled={pending}>
+              <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isPending}>
                 Cancel
               </Button>
-              <SubmitButton isEdit={!!post} />
+              <Button type="submit" disabled={isPending}>
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {post ? 'Save Changes' : 'Publish Post'}
+              </Button>
             </div>
           </form>
         </Form>
