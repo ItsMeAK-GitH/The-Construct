@@ -11,11 +11,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Adjust authDomain for Vercel deployments
-if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    firebaseConfig.authDomain = process.env.NEXT_PUBLIC_VERCEL_URL;
-}
-
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
