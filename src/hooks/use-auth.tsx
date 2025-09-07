@@ -9,13 +9,13 @@ import {
 } from 'react';
 import {
   onAuthStateChanged,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   GoogleAuthProvider,
   User,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { useRouter } from 'next/navigation';
 
 interface AuthContextType {
   user: User | null;
@@ -36,21 +36,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
 
+    // Check for redirect result
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          // This is the signed-in user
+          const user = result.user;
+          setUser(user);
+        }
+      })
+      .catch((error) => {
+        console.error('Error getting redirect result', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+
     return () => unsubscribe();
   }, []);
 
   const signInWithGoogle = async () => {
+    setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error('Error signing in with Google', error);
+      setLoading(false);
     }
   };
 
   const logout = async () => {
     try {
       await signOut(auth);
+      setUser(null);
     } catch (error) {
       console.error('Error signing out', error);
     }

@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LogOut } from 'lucide-react';
+import { LogOut, Loader2 } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +25,7 @@ export function LoginSection() {
 
     const handleLogin = async () => {
         await signInWithGoogle();
-        router.push('/#latest-transmissions');
+        // The page will redirect, so no need to route here.
     }
 
     const handleLogout = async () => {
@@ -41,8 +41,9 @@ export function LoginSection() {
                 </CardHeader>
                 <CardContent>
                     {loading ? (
-                        <div className="flex justify-center">
-                            <Skeleton className="h-10 w-48" />
+                        <div className="flex flex-col items-center gap-4">
+                            <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                            <p>Authenticating...</p>
                         </div>
                     ) : user ? (
                         <div className="flex flex-col items-center gap-4">
