@@ -9,15 +9,8 @@ import Loading from '@/app/loading';
 
 export default function NewPostPage() {
   const { user, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) {
+  
+  if (loading) {
     return <Loading />;
   }
 
@@ -28,7 +21,7 @@ export default function NewPostPage() {
         <div className="max-w-3xl mx-auto">
           <h1 className="font-headline text-3xl md:text-4xl font-bold mb-2">Create New Post</h1>
           <p className="text-muted-foreground mb-8">Fill in the details below to publish your article.</p>
-          <PostForm author={user.displayName || 'Anonymous'} />
+          <PostForm author={user?.displayName} />
         </div>
       </main>
     </div>
