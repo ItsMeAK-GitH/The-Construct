@@ -19,7 +19,7 @@ Enter the grid. **The Construct** is a full-stack blogging platform designed wit
 
 **Frontend:** React.js / Next.js + TailwindCSS + Framer Motion  
 **Backend:** Node.js + Express (or Next.js API routes)  
-**Database:** Supabase  
+**Database:** Firebase 
 **Deployment:** Vercel
 
 ---
