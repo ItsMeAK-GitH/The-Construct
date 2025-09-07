@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut, Loader2 } from 'lucide-react';
-import { Skeleton } from './ui/skeleton';
 import { useRouter } from 'next/navigation';
 
 function GoogleIcon() {
@@ -25,7 +24,7 @@ export function LoginSection() {
 
     const handleLogin = async () => {
         await signInWithGoogle();
-        // The page will redirect, so no need to route here.
+        router.refresh();
     }
 
     const handleLogout = async () => {

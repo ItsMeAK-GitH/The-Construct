@@ -9,7 +9,7 @@ import {
 } from 'react';
 import {
   onAuthStateChanged,
-  signInWithRedirect,
+  signInWithPopup,
   signOut,
   GoogleAuthProvider,
   User,
@@ -46,7 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
+      // The onAuthStateChanged listener will handle setting the user and loading state
     } catch (error) {
       console.error('Error signing in with Google', error);
       setLoading(false);
