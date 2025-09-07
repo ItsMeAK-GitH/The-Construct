@@ -9,8 +9,15 @@ import Loading from '@/app/loading';
 
 export default function NewPostPage() {
   const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/#login');
+    }
+  }, [user, loading, router]);
   
-  if (loading) {
+  if (loading || !user) {
     return <Loading />;
   }
 

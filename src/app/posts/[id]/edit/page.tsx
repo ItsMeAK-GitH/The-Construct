@@ -15,20 +15,28 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loadingAuth && !user) {
-      router.push('/login');
+    if (!loadingAuth) {
+      if (!user) {
+        router.push('/#login');
+      }
     }
   }, [user, loadingAuth, router]);
   
   useEffect(() => {
-    const fetchPost = async () => {
-      setLoadingPost(true);
-      const fetchedPost = await getPost(params.id);
-      setPost(fetchedPost);
-      setLoadingPost(false);
-    };
-    fetchPost();
-  }, [params.id]);
+    if (user) {
+      const fetchPost = async () => {
+        setLoadingPost(true);
+        const fetchedPost = await getPost(params.id);
+        if (fetchedPost?.author !== user.displayName) {
+          notFound();
+        } else {
+          setPost(fetchedPost);
+        }
+        setLoadingPost(false);
+      };
+      fetchPost();
+    }
+  }, [params.id, user]);
 
   if (loadingPost || loadingAuth) {
     return <Loading />;
