@@ -1,10 +1,10 @@
-# 🟩 The Construct
+#  The Construct
 
 Enter the grid. **The Construct** is a full-stack blogging platform designed with a cyberpunk vibe — think neon green text, dark terminals, and endless code rain. Post, edit, and share your thoughts like you’re jacked into the mainframe.  
 
 ---
 
-## ✨ Features
+##  Features
 
 - 📝 Create, update, and delete posts with full CRUD support  
 - 🖥️ Terminal-style UI with Matrix green aesthetic  
@@ -13,7 +13,7 @@ Enter the grid. **The Construct** is a full-stack blogging platform designed wit
 
 ---
 
-## 🎨 Tech Stack
+##  Tech Stack
 
 **Frontend:** React.js / Next.js + TailwindCSS + Framer Motion  
 **Backend:** Node.js + Express (or Next.js API routes)  
