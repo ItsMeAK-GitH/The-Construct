@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
+import { useRouter } from 'next/navigation';
 
 function GoogleIcon() {
     return (
@@ -20,6 +21,17 @@ function GoogleIcon() {
 
 export function LoginSection() {
     const { user, signInWithGoogle, logout, loading } = useAuth();
+    const router = useRouter();
+
+    const handleLogin = async () => {
+        await signInWithGoogle();
+        router.push('/#latest-transmissions');
+    }
+
+    const handleLogout = async () => {
+        await logout();
+        router.refresh();
+    }
 
     return (
         <section id="login" className="container mx-auto px-4 md:px-6 py-24">
@@ -41,7 +53,7 @@ export function LoginSection() {
                                 </AvatarFallback>
                             </Avatar>
                             <p>Welcome, {user.displayName}</p>
-                            <Button onClick={logout} variant="outline">
+                            <Button onClick={handleLogout} variant="outline">
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Sign Out
                             </Button>
@@ -53,7 +65,7 @@ export function LoginSection() {
                         </CardDescription>
                         <Button
                             className="w-full"
-                            onClick={signInWithGoogle}
+                            onClick={handleLogin}
                             disabled={loading}
                         >
                             <GoogleIcon />
