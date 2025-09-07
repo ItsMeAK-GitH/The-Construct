@@ -97,6 +97,12 @@ html {
 }
 
 @layer utilities {
+    .focus-group:hover > .focus-group-item:not(:hover) {
+        @apply filter blur-sm opacity-50 transition-all duration-300;
+    }
+    .focus-group-item {
+        @apply transition-all duration-300;
+    }
     @keyframes fade-in-down {
       from {
         opacity: 0;
