@@ -22,18 +22,18 @@ import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { useAuth } from '@/hooks/use-auth';
 
 const PostSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters long.'),
   content: z.string().min(10, 'Content must be at least 10 characters long.'),
-  author: z.string(),
+  author: z.string().min(2, 'Author name must be at least 2 characters long.'),
 });
 
 type PostFormValues = z.infer<typeof PostSchema>;
 
 interface PostFormProps {
   post?: Post;
-  author?: string;
 }
 
 function SubmitButton({ isEdit }: { isEdit: boolean }) {
@@ -46,18 +46,21 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
   );
 }
 
-export function PostForm({ post, author }: PostFormProps) {
+export function PostForm({ post }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isSuggesting, setIsSuggesting] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const { user } = useAuth();
   
+  const authorName = post?.author || user?.displayName || '';
+
   const form = useForm<PostFormValues>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
       title: post?.title || '',
       content: post?.content || '',
-      author: post?.author || author || 'Anonymous',
+      author: authorName,
     },
     mode: 'onChange',
   });
@@ -123,10 +126,10 @@ export function PostForm({ post, author }: PostFormProps) {
               control={form.control}
               name="author"
               render={({ field }) => (
-                <FormItem className="hidden">
+                <FormItem>
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Your name" {...field} readOnly={!!post?.author} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
