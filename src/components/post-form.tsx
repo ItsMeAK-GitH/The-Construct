@@ -33,9 +33,10 @@ type PostFormValues = z.infer<typeof PostSchema>;
 
 interface PostFormProps {
   post?: Post;
+  author?: string;
 }
 
-export function PostForm({ post }: PostFormProps) {
+export function PostForm({ post, author }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isSuggesting, setIsSuggesting] = useState(false);
@@ -82,6 +83,14 @@ export function PostForm({ post }: PostFormProps) {
 
   const handleSuggestTitles = async () => {
     const content = form.getValues('content');
+    if (content.trim().length < 50) {
+      toast({
+        title: 'Content too short',
+        description: 'Please provide at least 50 characters of content for suggestions.',
+        variant: 'destructive',
+      });
+      return;
+    }
     setIsSuggesting(true);
     setSuggestions([]);
     const result = await suggestTitles(content);
@@ -94,7 +103,7 @@ export function PostForm({ post }: PostFormProps) {
   };
 
   return (
-    <Card>
+    <Card className="bg-card/80 backdrop-blur-lg border border-primary/20 shadow-2xl shadow-accent/10">
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -145,10 +154,10 @@ export function PostForm({ post }: PostFormProps) {
             />
 
             {suggestions.length > 0 && (
-              <Card className="bg-accent/20">
+              <Card className="bg-accent/20 border-accent">
                 <CardHeader>
-                  <CardTitle className="flex items-center text-lg font-headline">
-                    <Sparkles className="w-5 h-5 mr-2 text-accent-foreground" />
+                  <CardTitle className="flex items-center text-lg font-headline text-accent-foreground">
+                    <Sparkles className="w-5 h-5 mr-2" />
                     AI Title Suggestions
                   </CardTitle>
                 </CardHeader>
@@ -160,7 +169,7 @@ export function PostForm({ post }: PostFormProps) {
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="w-full justify-start text-left h-auto"
+                          className="w-full justify-start text-left h-auto text-accent-foreground/80 hover:text-accent-foreground"
                           onClick={() => {
                             form.setValue('title', s, { shouldValidate: true });
                             setSuggestions([]);
@@ -174,24 +183,26 @@ export function PostForm({ post }: PostFormProps) {
                 </CardContent>
               </Card>
             )}
-
-            <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || isPending}>
-              {isSuggesting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Wand2 className="mr-2 h-4 w-4" />
-              )}
-              Suggest Titles with AI
-            </Button>
-
-            <div className="flex justify-end gap-4">
-              <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isPending}>
-                Cancel
+            
+            <div className="flex flex-wrap gap-4 items-center justify-between">
+              <Button type="button" variant="outline" onClick={handleSuggestTitles} disabled={isSuggesting || isPending}>
+                {isSuggesting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Wand2 className="mr-2 h-4 w-4" />
+                )}
+                Suggest Titles with AI
               </Button>
-              <Button type="submit" disabled={isPending}>
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {post ? 'Save Changes' : 'Publish Post'}
-              </Button>
+
+              <div className="flex justify-end gap-4">
+                <Button type="button" variant="ghost" onClick={() => router.back()} disabled={isPending}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {post ? 'Save Changes' : 'Publish Post'}
+                </Button>
+              </div>
             </div>
           </form>
         </Form>

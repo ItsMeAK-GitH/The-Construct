@@ -98,7 +98,7 @@ export default function Home() {
             <h2 className="font-headline text-4xl md:text-5xl font-bold">
               Latest Transmissions
             </h2>
-             <Button asChild>
+             <Button asChild size="lg">
                 <Link href="/posts/new">
                   <PenSquare/>
                   New Post
