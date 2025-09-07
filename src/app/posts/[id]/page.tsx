@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPost } from '@/lib/actions';
@@ -8,9 +9,29 @@ import { DeletePostButton } from '@/components/delete-post-button';
 import { Separator } from '@/components/ui/separator';
 import { format, parseISO } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/use-auth';
+import { useEffect, useState } from 'react';
+import type { Post } from '@/types';
+import Loading from '@/app/loading';
 
-export default async function PostPage({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+export default function PostPage({ params }: { params: { id: string } }) {
+  const { user, loading: authLoading } = useAuth();
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const fetchedPost = await getPost(params.id);
+      setPost(fetchedPost);
+      setLoading(false);
+    }
+    fetchPost();
+  }, [params.id]);
+
+
+  if (loading || authLoading) {
+      return <Loading />
+  }
 
   if (!post) {
     notFound();
@@ -18,6 +39,8 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   
   const createdDate = format(parseISO(post.createdAt), 'MMMM d, yyyy');
   const updatedDate = format(parseISO(post.updatedAt), 'MMMM d, yyyy');
+
+  const canEdit = user?.displayName === post.author;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -42,15 +65,17 @@ export default async function PostPage({ params }: { params: { id: string } }) {
 
           <Separator className="my-8" />
           
-          <div className="flex justify-end gap-4">
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/posts/${post.id}/edit`}>
-                <Pencil className="mr-2 h-4 w-4" />
-                Edit
-              </Link>
-            </Button>
-            <DeletePostButton postId={post.id} />
-          </div>
+          {canEdit && (
+            <div className="flex justify-end gap-4">
+              <Button asChild variant="outline" size="sm">
+                <Link href={`/posts/${post.id}/edit`}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Edit
+                </Link>
+              </Button>
+              <DeletePostButton postId={post.id} postAuthor={post.author} />
+            </div>
+          )}
         </article>
       </main>
     </div>

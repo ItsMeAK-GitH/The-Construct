@@ -1,7 +1,26 @@
+'use client';
+
 import { Header } from '@/components/layout/header';
 import { PostForm } from '@/components/post-form';
+import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import Loading from '@/app/loading';
 
 export default function NewPostPage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -9,7 +28,7 @@ export default function NewPostPage() {
         <div className="max-w-3xl mx-auto">
           <h1 className="font-headline text-3xl md:text-4xl font-bold mb-2">Create New Post</h1>
           <p className="text-muted-foreground mb-8">Fill in the details below to publish your article.</p>
-          <PostForm />
+          <PostForm author={user.displayName || 'Anonymous'} />
         </div>
       </main>
     </div>

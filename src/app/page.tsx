@@ -3,30 +3,16 @@ import { PostCard } from '@/components/post-card';
 import { Header } from '@/components/layout/header';
 import { Suspense } from 'react';
 import Loading from './loading';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { PenSquare, ArrowDown, Code, BrainCircuit, Share2 } from 'lucide-react';
+import { ArrowDown, Code, BrainCircuit, Share2 } from 'lucide-react';
 import { MatrixText } from '@/components/matrix-text';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NoPosts } from '@/components/no-posts';
 
 async function PostsList() {
   const posts = await getPosts();
 
   if (posts.length === 0) {
-    return (
-      <div className="text-center py-20 bg-card/80 backdrop-blur-sm border border-primary/20 shadow-lg rounded-lg">
-        <h2 className="font-headline text-3xl mb-3 text-primary">No transmissions detected.</h2>
-        <p className="text-muted-foreground mb-6">
-          The data stream is clear. Be the first to broadcast a message.
-        </p>
-        <Button asChild>
-          <Link href="/posts/new">
-            <PenSquare className="mr-2" />
-            Create New Post
-          </Link>
-        </Button>
-      </div>
-    );
+    return <NoPosts />
   }
 
   return (

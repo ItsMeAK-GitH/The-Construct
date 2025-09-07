@@ -16,11 +16,17 @@ import { Button } from '@/components/ui/button';
 import { Trash2, Loader2 } from 'lucide-react';
 import { deletePost } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
 
-export function DeletePostButton({ postId }: { postId: string }) {
+export function DeletePostButton({ postId, postAuthor }: { postId: string, postAuthor: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  if (user?.displayName !== postAuthor) {
+      return null;
+  }
 
   const handleDelete = () => {
     startTransition(async () => {

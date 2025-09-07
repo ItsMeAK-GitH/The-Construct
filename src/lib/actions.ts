@@ -113,18 +113,28 @@ export async function deletePost(id: string) {
 }
 
 export async function getPosts(): Promise<Post[]> {
-  const postsCollection = collection(db, 'posts');
-  const q = query(postsCollection, orderBy('createdAt', 'desc'));
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map(toPost);
+  try {
+    const postsCollection = collection(db, 'posts');
+    const q = query(postsCollection, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(toPost);
+  } catch (e) {
+    console.error("Couldn't get posts", e);
+    return [];
+  }
 }
 
 export async function getPost(id: string): Promise<Post | null> {
-  const postDoc = await getDoc(doc(db, 'posts', id));
-  if (!postDoc.exists()) {
+  try {
+    const postDoc = await getDoc(doc(db, 'posts', id));
+    if (!postDoc.exists()) {
+      return null;
+    }
+    return toPost(postDoc);
+  } catch (e) {
+    console.error(`Couldn't get post ${id}`, e);
     return null;
   }
-  return toPost(postDoc);
 }
 
 export async function suggestTitles(content: string): Promise<{ suggestions: string[]; error?: string }> {

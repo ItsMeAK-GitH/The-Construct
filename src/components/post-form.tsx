@@ -26,13 +26,14 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 const PostSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters long.'),
   content: z.string().min(10, 'Content must be at least 10 characters long.'),
-  author: z.string().min(2, 'Author name must be at least 2 characters long.'),
+  author: z.string(),
 });
 
 type PostFormValues = z.infer<typeof PostSchema>;
 
 interface PostFormProps {
   post?: Post;
+  author?: string;
 }
 
 function SubmitButton({ isEdit }: { isEdit: boolean }) {
@@ -45,7 +46,7 @@ function SubmitButton({ isEdit }: { isEdit: boolean }) {
   );
 }
 
-export function PostForm({ post }: PostFormProps) {
+export function PostForm({ post, author }: PostFormProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isSuggesting, setIsSuggesting] = useState(false);
@@ -56,7 +57,7 @@ export function PostForm({ post }: PostFormProps) {
     defaultValues: {
       title: post?.title || '',
       content: post?.content || '',
-      author: post?.author || '',
+      author: post?.author || author || '',
     },
     mode: 'onChange',
   });
@@ -162,10 +163,10 @@ export function PostForm({ post }: PostFormProps) {
               control={form.control}
               name="author"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="hidden">
                   <FormLabel>Author</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
